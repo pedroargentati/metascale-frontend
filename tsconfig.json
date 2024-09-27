@@ -3,13 +3,17 @@
 	"compilerOptions": {
 		"allowJs": true,
 		"checkJs": true,
-		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,
+		"useDefineForClassFields": true,
 		"resolveJsonModule": true,
+		"esModuleInterop": true,
+		"isolatedModules": true,
 		"skipLibCheck": true,
-		"sourceMap": true,
 		"strict": true,
-		"moduleResolution": "bundler"
+		"noImplicitAny": false,
+		"removeComments": true,
+		"declaration": false,
+		"importHelpers": true
 	}
 	// Path aliases are handled by https://kit.svelte.dev/docs/configuration#alias
 	// except $lib which is handled by https://kit.svelte.dev/docs/configuration#files
