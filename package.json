@@ -2,6 +2,7 @@
 	"name": "metascale-frontend",
 	"version": "0.0.1",
 	"private": true,
+	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
@@ -36,5 +37,286 @@
 		"vite": "^5.0.3",
 		"vitest": "^2.0.0"
 	},
-	"type": "module"
+	"eslintConfig": {
+		"root": true,
+		"env": {
+			"browser": true,
+			"node": true,
+			"es6": true
+		},
+		"extends": [
+			"eslint:recommended",
+			"plugin:prettier/recommended",
+			"plugin:tailwindcss/recommended"
+		],
+		"overrides": [
+			{
+				"files": [
+					"*.js",
+					"*.cjs",
+					"*.mjs"
+				],
+				"env": {
+					"node": true
+				},
+				"parserOptions": {
+					"sourceType": "module",
+					"ecmaVersion": "latest"
+				}
+			},
+			{
+				"files": [
+					"*.svelte"
+				],
+				"parser": "svelte-eslint-parser",
+				"extends": [
+					"plugin:svelte/recommended"
+				],
+				"parserOptions": {
+					"parser": "@typescript-eslint/parser",
+					"extraFileExtensions": [
+						".svelte"
+					]
+				},
+				"env": {
+					"browser": true,
+					"node": false,
+					"es6": true
+				}
+			}
+		],
+		"parser": "@typescript-eslint/parser",
+		"parserOptions": {
+			"ecmaVersion": "latest",
+			"extraFileExtensions": [
+				".svelte"
+			]
+		},
+		"plugins": [
+			"@typescript-eslint"
+		],
+		"rules": {
+			"indent": [
+				"error",
+				"tab",
+				{
+					"SwitchCase": 1
+				}
+			],
+			"linebreak-style": [
+				"error",
+				"windows"
+			],
+			"semi": [
+				"error",
+				"always"
+			],
+			"prefer-const": "off",
+			"no-const-assign": "error",
+			"no-var": "error",
+			"no-unused-vars": "off",
+			"no-fallthrough": "off",
+			"one-var": [
+				"error",
+				"never"
+			],
+			"no-multi-assign": "error",
+			"no-plusplus": [
+				"error",
+				{
+					"allowForLoopAfterthoughts": true
+				}
+			],
+			"no-new-object": "error",
+			"object-shorthand": "off",
+			"quote-props": [
+				"error",
+				"consistent-as-needed"
+			],
+			"no-prototype-builtins": "error",
+			"dot-notation": "error",
+			"array-callback-return": [
+				"error",
+				{
+					"allowImplicit": true,
+					"checkForEach": true
+				}
+			],
+			"prefer-template": "off",
+			"template-curly-spacing": [
+				"error",
+				"never"
+			],
+			"no-eval": "error",
+			"no-useless-escape": "error",
+			"default-param-last": "error",
+			"no-new-func": "error",
+			"brace-style": [
+				"error",
+				"stroustrup"
+			],
+			"space-before-blocks": [
+				"error",
+				"always"
+			],
+			"space-before-function-paren": [
+				"error",
+				{
+					"anonymous": "always",
+					"named": "never",
+					"asyncArrow": "always"
+				}
+			],
+			"no-param-reassign": "off",
+			"prefer-spread": "error",
+			"arrow-spacing": "error",
+			"arrow-parens": "error",
+			"no-confusing-arrow": [
+				"off",
+				{
+					"allowParens": false
+				}
+			],
+			"implicit-arrow-linebreak": "error",
+			"no-duplicate-imports": "error",
+			"object-curly-newline": "off",
+			"eqeqeq": "error",
+			"no-case-declarations": "error",
+			"no-unneeded-ternary": "error",
+			"no-mixed-operators": "off",
+			"space-infix-ops": "error",
+			"nonblock-statement-body-position": "error",
+			"no-else-return": "error",
+			"spaced-comment": "error",
+			"eol-last": "error",
+			"newline-per-chained-call": [
+				"error",
+				{
+					"ignoreChainWithDepth": 3
+				}
+			],
+			"no-whitespace-before-property": "error",
+			"padded-blocks": [
+				"error",
+				"never"
+			],
+			"no-multiple-empty-lines": "error",
+			"space-in-parens": "error",
+			"array-bracket-spacing": "error",
+			"object-curly-spacing": [
+				"error",
+				"always"
+			],
+			"comma-spacing": "error",
+			"computed-property-spacing": "error",
+			"func-call-spacing": "error",
+			"key-spacing": "error",
+			"no-trailing-spaces": "error",
+			"comma-style": "error",
+			"comma-dangle": [
+				"error",
+				"always-multiline"
+			],
+			"no-new-wrappers": "error",
+			"camelcase": "error",
+			"no-undef": "off",
+			"no-underscore-dangle": "off",
+			"@typescript-eslint/no-namespace": "off",
+			"@typescript-eslint/no-inferrable-types": "off",
+			"@typescript-eslint/no-explicit-any": "off",
+			"@typescript-eslint/naming-convention": [
+				"error",
+				{
+					"selector": "typeLike",
+					"format": [
+						"PascalCase"
+					]
+				},
+				{
+					"selector": "interface",
+					"format": [
+						"PascalCase"
+					],
+					"custom": {
+						"regex": "^I[A-Z]",
+						"match": true
+					}
+				},
+				{
+					"selector": "class",
+					"format": [
+						"PascalCase"
+					],
+					"suffix": [
+						"Class",
+						"Store",
+						"Api",
+						"Service",
+						"Utils"
+					]
+				},
+				{
+					"selector": "property",
+					"format": [
+						"camelCase"
+					],
+					"modifiers": [
+						"private"
+					],
+					"leadingUnderscore": "require"
+				},
+				{
+					"selector": "variable",
+					"modifiers": [
+						"destructured"
+					],
+					"format": null
+				}
+			]
+		}
+	},
+	"prettier": {
+		"printWidth": 120,
+		"tabWidth": 4,
+		"useTabs": true,
+		"semi": true,
+		"singleQuote": true,
+		"jsxSingleQuote": true,
+		"quoteProps": "consistent",
+		"trailingComma": "all",
+		"bracketSpacing": true,
+		"bracketSameLine": false,
+		"braceStyle": "stroustrup",
+		"arrowParens": "always",
+		"htmlWhitespaceSensitivity": "css",
+		"proseWrap": "preserve",
+		"singleAttributePerLine": false,
+		"endOfLine": "crlf",
+		"plugins": [
+			"prettier-plugin-svelte",
+			"prettier-plugin-tailwindcss",
+			"prettier-plugin-brace-style"
+		],
+		"tailwindConfig": "./tailwind.config.cjs",
+		"overrides": [
+			{
+				"files": "*.svelte",
+				"options": {
+					"printWidth": 90,
+					"parser": "svelte",
+					"braceStyle": "stroustrup",
+					"svelteSortOrder": "options-scripts-markup-styles",
+					"svelteStrictMode": false,
+					"svelteAllowShorthand": false,
+					"svelteIndentScriptAndStyle": true
+				}
+			},
+			{
+				"files": "*.md",
+				"options": {
+					"requirePragma": true
+				}
+			}
+		]
+	}
 }
