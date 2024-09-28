@@ -5,9 +5,42 @@ import daisy from 'daisyui';
 module.exports = {
 	darkMode: 'class',
 	content: ['./src/**/*.{html,svelte,js,ts}'],
+	theme: {
+		extend: {
+			fontFamily: {
+				roboto: ['Roboto'],
+			},
+		},
+	},
 	daisyui: {
-		/** temas personalizados com colors-shape-dark */
-		themes: ['dark'],
+		themes: [
+			{
+				vivo: {
+					'color-scheme': 'light',
+					'primary': '#660099',
+					'secondary': '#ef6497',
+					'accent': '#f89c3c',
+					'neutral': '#dddddd',
+					'base-100': '#f1f1f1',
+					'info': '#00b1f5',
+					'success': '#58d58d',
+					'warning': '#f7d84f',
+					'error': '#cc286b',
+				},
+				dark: {
+					'color-scheme': 'dark',
+					'primary': '#660099',
+					'secondary': '#ef6497',
+					'accent': '#f89c3c',
+					'neutral': '#dddddd',
+					'base-100': '#2d2d2d',
+					'info': '#00b1f5',
+					'success': '#58d58d',
+					'warning': '#f7d84f',
+					'error': '#cc286b',
+				},
+			},
+		],
 		/** nome do tema padrão para o modo escuro */
 		darkTheme: 'dark',
 		/** aplica cor de fundo e cor de primeiro plano para o elemento raiz */
