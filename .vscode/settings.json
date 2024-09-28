@@ -51,14 +51,14 @@
 	},
 	/* ———————————————————————— Visualization ———————————————————————— */
 	"workbench.editor.customLabels.patterns": {
-		"**/source/routes/**/+layout.svelte": "/${dirname} - layout",
-		"**/source/routes/**/+layout.ts": "/${dirname} - layout script",
-		"**/source/routes/**/+layout.server.ts": "/${dirname} - layout server",
-		"**/source/routes/**/+layout.reset.svelte": "/${dirname} - layout reset",
-		"**/source/routes/**/+page.svelte": "/${dirname}",
-		"**/source/routes/**/+page.server.ts": "/${dirname} - server",
-		"**/source/routes/**/+page.ts": "/${dirname} - script",
-		"**/source/routes/**/+error.svelte": "/${dirname} - error"
+		"**/src/routes/**/+layout.svelte": "/${dirname} - layout",
+		"**/src/routes/**/+layout.ts": "/${dirname} - layout script",
+		"**/src/routes/**/+layout.server.ts": "/${dirname} - layout server",
+		"**/src/routes/**/+layout.reset.svelte": "/${dirname} - layout reset",
+		"**/src/routes/**/+page.svelte": "/${dirname}",
+		"**/src/routes/**/+page.server.ts": "/${dirname} - server",
+		"**/src/routes/**/+page.ts": "/${dirname} - script",
+		"**/src/routes/**/+error.svelte": "/${dirname} - error"
 	},
 	/* —————————————————————————— Tailwind ——————————————————————————— */
 	"tailwindCSS.classAttributes": [

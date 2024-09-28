@@ -19,25 +19,24 @@
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
 		"@tailwindcss/forms": "^0.5.9",
-		"@typescript-eslint/eslint-plugin": "^8.7.0",
-		"@typescript-eslint/parser": "^8.7.0",
-		"@vincjo/datatables": "1.14.5",
+		"@typescript-eslint/eslint-plugin": "^6.3.0",
+		"@typescript-eslint/parser": "^6.3.0",
+		"@vincjo/datatables": "^1.14.5",
 		"autoprefixer": "^10.4.20",
 		"daisyui": "^4.12.10",
-		"eslint": "^9.11.1",
-		"eslint-config-prettier": "^9.1.0",
-		"eslint-plugin-prettier": "^5.2.1",
-		"eslint-plugin-svelte": "^2.44.1",
-		"eslint-plugin-tailwindcss": "^3.17.4",
+		"eslint": "^8.47.0",
+		"eslint-config-prettier": "^9.0.0",
+		"eslint-plugin-prettier": "^5.0.0",
+		"eslint-plugin-svelte": "^2.32.4",
+		"eslint-plugin-tailwindcss": "^3.13.0",
 		"postcss": "^8.4.47",
-		"prettier": "^3.3.3",
-		"prettier-plugin-brace-style": "^0.7.0",
-		"prettier-plugin-svelte": "^3.2.7",
-		"prettier-plugin-tailwindcss": "^0.6.8",
+		"prettier": "^3.0.1",
+		"prettier-plugin-svelte": "^3.0.3",
+		"prettier-plugin-tailwindcss": "^0.5.2",
 		"svelte": "^4.2.7",
 		"svelte-check": "^4.0.0",
 		"tailwindcss": "^3.4.13",
-		"typescript": "^5.0.0",
+		"typescript": "^5.1.6",
 		"vite": "^5.0.3",
 		"vitest": "^2.0.0"
 	},
@@ -54,6 +53,14 @@
 			"plugin:tailwindcss/recommended"
 		],
 		"overrides": [
+			{
+				"files": [
+					"*.d.ts"
+				],
+				"rules": {
+					"spaced-comment": "off"
+				}
+			},
 			{
 				"files": [
 					"*.js",
@@ -111,11 +118,15 @@
 				"error",
 				"windows"
 			],
+			"quotes": [
+				"error",
+				"single"
+			],
 			"semi": [
 				"error",
 				"always"
 			],
-			"prefer-const": "off",
+			"prefer-const": "error",
 			"no-const-assign": "error",
 			"no-var": "error",
 			"no-unused-vars": "off",
@@ -155,10 +166,6 @@
 			"no-useless-escape": "error",
 			"default-param-last": "error",
 			"no-new-func": "error",
-			"brace-style": [
-				"error",
-				"stroustrup"
-			],
 			"space-before-blocks": [
 				"error",
 				"always"
@@ -222,65 +229,16 @@
 				"always-multiline"
 			],
 			"no-new-wrappers": "error",
-			"camelcase": "error",
+			"camelcase": "off",
 			"no-undef": "off",
 			"no-underscore-dangle": "off",
 			"@typescript-eslint/no-namespace": "off",
 			"@typescript-eslint/no-inferrable-types": "off",
-			"@typescript-eslint/no-explicit-any": "off",
-			"@typescript-eslint/naming-convention": [
-				"error",
-				{
-					"selector": "typeLike",
-					"format": [
-						"PascalCase"
-					]
-				},
-				{
-					"selector": "interface",
-					"format": [
-						"PascalCase"
-					],
-					"custom": {
-						"regex": "^I[A-Z]",
-						"match": true
-					}
-				},
-				{
-					"selector": "class",
-					"format": [
-						"PascalCase"
-					],
-					"suffix": [
-						"Class",
-						"Store",
-						"Api",
-						"Service",
-						"Utils"
-					]
-				},
-				{
-					"selector": "property",
-					"format": [
-						"camelCase"
-					],
-					"modifiers": [
-						"private"
-					],
-					"leadingUnderscore": "require"
-				},
-				{
-					"selector": "variable",
-					"modifiers": [
-						"destructured"
-					],
-					"format": null
-				}
-			]
+			"@typescript-eslint/no-explicit-any": "off"
 		}
 	},
 	"prettier": {
-		"printWidth": 120,
+		"printWidth": 100,
 		"tabWidth": 4,
 		"useTabs": true,
 		"semi": true,
@@ -290,35 +248,24 @@
 		"trailingComma": "all",
 		"bracketSpacing": true,
 		"bracketSameLine": false,
-		"braceStyle": "stroustrup",
 		"arrowParens": "always",
 		"htmlWhitespaceSensitivity": "css",
 		"proseWrap": "preserve",
 		"singleAttributePerLine": false,
 		"endOfLine": "crlf",
 		"plugins": [
-			"prettier-plugin-svelte",
 			"prettier-plugin-tailwindcss",
-			"prettier-plugin-brace-style"
+			"prettier-plugin-svelte"
 		],
 		"tailwindConfig": "./tailwind.config.cjs",
 		"overrides": [
 			{
 				"files": "*.svelte",
 				"options": {
-					"printWidth": 90,
 					"parser": "svelte",
-					"braceStyle": "stroustrup",
 					"svelteSortOrder": "options-scripts-markup-styles",
-					"svelteStrictMode": false,
 					"svelteAllowShorthand": false,
 					"svelteIndentScriptAndStyle": true
-				}
-			},
-			{
-				"files": "*.md",
-				"options": {
-					"requirePragma": true
 				}
 			}
 		]
