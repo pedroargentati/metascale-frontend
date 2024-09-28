@@ -1,13 +1,13 @@
 <script lang="ts">
-	import Icon from "@iconify/svelte";
+	import Icon from '@iconify/svelte';
 
-	export let handler
-	export let orderBy: string
-	export let label: string
-	const sorted = handler.getSort();
+	export let handler;
+	export let orderBy: string;
+	export let label: string;
+	$: sorted = handler.getSort();
 </script>
 
-<th class="cursor-pointer text-base-content" on:click={() => handler.sort(orderBy)}>
+<th class="cursor-pointer text-primary-content" on:click={() => handler.sort(orderBy)}>
 	<div class="flex h-full items-center justify-start gap-x-2">
 		{label}
 		{#if $sorted.identifier === orderBy}

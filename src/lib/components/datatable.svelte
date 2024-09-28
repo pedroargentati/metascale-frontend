@@ -1,49 +1,76 @@
-	<script lang="ts">
+<script lang="ts">
+	import {
+		DataTableCount,
+		DataTablePagination,
+		DataTableSearch,
+		DataTableSort,
+		DataTableView,
+	} from '$lib/components';
+	import { DataHandler } from '@vincjo/datatables';
 
 	export let data: any[] = [];
-	export let columns: { label: string, key: string }[] = [];
+	export let rowsPerPage: number = 5;
+	export let columns: { label: string; key: string }[] = [];
 
+	const handler = new DataHandler(data, { rowsPerPage });
+
+	$: rows = handler.getRows();
 
 	function handleSelect(e: any, row: any) {
-
+		console.log('e, row: ', e, row);
 	}
+</script>
 
-	</script>
-
-
-	<div class="overflow-x-auto">
-	<table class="table table-zebra">
-	<!-- head -->
-	<thead>
-		<tr>
-		<th></th>
-		<th>Name</th>
-		<th>Job</th>
-		<th>Favorite Color</th>
-		</tr>
-	</thead>
-	<tbody>
-		<!-- row 1 -->
-		<tr class="bg-base-200">
-			<th>1</th>
-			<td>Cy Ganderton</td>
-			<td>Quality Control Specialist</td>
-			<td>Blue</td>
-		</tr>
-		<!-- row 2 -->
-		<tr>
-		<th>2</th>
-		<td>Hart Hagerty</td>
-		<td>Desktop Support Technician</td>
-		<td>Purple</td>
-		</tr>
-		<!-- row 3 -->
-		<tr>
-		<th>3</th>
-		<td>Brice Swyre</td>
-		<td>Tax Accountant</td>
-		<td>Red</td>
-		</tr>
-	</tbody>
+<div class="z-0 w-full space-y-4 overflow-x-auto p-4">
+	<!-- Header -->
+	<header class="flex justify-between">
+		<DataTableSearch handler={handler} />
+		<DataTableView handler={handler} />
+	</header>
+	<!-- Table -->
+	<table class="table w-full table-auto bg-primary">
+		<thead>
+			<tr>
+				{#each columns as column}
+					<DataTableSort handler={handler} orderBy={column.key} label={column.label} />
+				{/each}
+			</tr>
+		</thead>
+		<tbody>
+			{#each $rows as row}
+				<tr
+					class="bg-base-200 even:bg-base-300 hover:text-primary transition-all hover:scale-[1.01] hover:cursor-pointer"
+					on:click={(event) => handleSelect(event, row)}
+					tabindex={1}
+				>
+					{#each columns as column}
+						<td>
+							{row[column.key]}
+						</td>
+					{/each}
+					<td class="flex items-center gap-2">
+						{#if row.actions}
+							{#each row.actions as action}
+								{#if action.button}
+									<button
+										{...action.button}
+										onclick={() => {
+											if (action.button.onclick) {
+												action.button.onclick(row);
+											}
+										}}
+									/>
+								{/if}
+							{/each}
+						{/if}
+					</td>
+				</tr>
+			{/each}
+		</tbody>
 	</table>
-	</div>
+	<!-- Footer -->
+	<footer class="flex items-center justify-between">
+		<DataTableCount handler={handler} />
+		<DataTablePagination handler={handler} />
+	</footer>
+</div>

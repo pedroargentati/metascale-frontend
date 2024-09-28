@@ -1,8 +1,8 @@
 <script lang="ts">
 	export let handler;
 
-	let rowsPerPage = handler.getRowsPerPage();
-	let options = [5, 10, 15, 25, 50, 100];
+	const rowsPerPage = handler.getRowsPerPage();
+	const options = [5, 10, 15, 25, 50, 100];
 </script>
 
 <div>

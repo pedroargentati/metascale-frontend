@@ -7,18 +7,20 @@
 </script>
 
 <!-- Desktop buttons -->
-<section class="join">
+<section class="join bg-base-300">
 	<button
 		disabled={$pageNumber === 1}
 		on:click={() => handler.setPage('previous')}
-		class="join-item !bg-base-200">{'🞀'}</button
+		class="btn btn-sm join-item bg-base-200"
 	>
+		{'🞀'}
+	</button>
 
 	{#each $pages as page}
 		<button
-			class:active={$pageNumber === page}
+			class:bg-secondary={$pageNumber === page}
 			on:click={() => handler.setPage(page)}
-			class="join-item bg-base-200/50"
+			class="btn btn-sm join-item bg-base-200/50"
 		>
 			{page}
 		</button>
@@ -26,6 +28,6 @@
 	<button
 		disabled={$pageNumber === $pageCount}
 		on:click={() => handler.setPage('next')}
-		class="join-item !bg-base-200">{'🞂'}</button
+		class="btn btn-sm join-item bg-base-200">{'🞂'}</button
 	>
 </section>
