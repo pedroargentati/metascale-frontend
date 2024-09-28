@@ -1,5 +1,14 @@
+import { Status } from '../../core/enums/status.js';
+import type { ICanonico } from '../../core/interfaces/canonico.js';
+import { CanonicoService } from '../../server/services/canonical.js';
+
 /** @type {import('./$types').PageLoad} */
-export function load({ params }) {
+export async function load({ params }): Promise<any> {
+	const allCanonicos: ICanonico[] = await CanonicoService.getCanonicosByStatus(Status.ACTIVE);
+
+	console.log(allCanonicos);
+	// return CanonicalUtils.prepareCanonicals(allCanonicos);
+
 	return {
 		list: [
 			{ id: 1, first_name: 'Tobie', last_name: 'Vint', email: 'tvint0@fotki.com' },
