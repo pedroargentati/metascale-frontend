@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import Icon from '@iconify/svelte';
 	import type { ICanonico } from '../../../core/interfaces/canonico';
 
 	// Dados do formulário, com estrutura correspondente ao objeto fornecido
@@ -69,21 +70,38 @@
 			chamadas: [...formData.chamadas, novaChamada],
 		};
 	}
+
+	function goBack(): void {
+		goto('/');
+	}
 </script>
 
-<div class="min-h-screen w-full flex items-start justify-center p-8 bg-base-200 overflow-auto">
+<div class="min-h-screen w-full flex items-start justify-center p-8 overflow-auto">
 	<div class="w-full max-w-5xl bg-white shadow-xl rounded-lg p-10 mt-8">
-		<h2 class="text-3xl font-bold mb-8 text-center">Incluir Novo Canônico</h2>
+		<!-- Formulário de inclusão -->
 		<form on:submit|preventDefault={handleSubmit} class="space-y-6">
+			<!-- Botão de Voltar -->
+			<button
+				on:click={goBack}
+				type="button"
+				class="btn btn-outline btn-secondary flex items-center gap-2 mb-6"
+			>
+				<Icon icon="mdi:arrow-left" inline={true} />
+				<span>Voltar</span>
+			</button>
+
+			<!-- Título do Formulário -->
+			<h2 class="text-3xl font-bold mb-8 text-center text-black">Incluir Novo Canônico</h2>
+
 			<!-- Campo Nome -->
 			<div class="form-control">
 				<label class="label" for="nome">
-					<span class="label-text font-semibold">Nome</span>
+					<span class="label-text font-semibold text-black">Nome</span>
 				</label>
 				<input
 					type="text"
 					id="nome"
-					class="input input-bordered w-full"
+					class="input text-black input-bordered w-full"
 					bind:value={formData.nome}
 					placeholder="Digite o nome"
 					required
@@ -93,11 +111,11 @@
 			<!-- Campo Descrição -->
 			<div class="form-control">
 				<label class="label" for="descricao">
-					<span class="label-text font-semibold">Descrição</span>
+					<span class="label-text font-semibold text-black">Descrição</span>
 				</label>
 				<textarea
 					id="descricao"
-					class="textarea textarea-bordered w-full"
+					class="textarea text-black textarea-bordered w-full"
 					bind:value={formData.descricao}
 					placeholder="Digite uma descrição"
 					required
@@ -107,11 +125,13 @@
 			<!-- Campo Tipo de Pós-Processamento -->
 			<div class="form-control">
 				<label class="label" for="tipoPosProcessamento">
-					<span class="label-text font-semibold">Tipo de Pós-Processamento</span>
+					<span class="label-text font-semibold text-black"
+						>Tipo de Pós-Processamento</span
+					>
 				</label>
 				<select
 					id="tipoPosProcessamento"
-					class="select select-bordered w-full"
+					class="select select-bordered w-full text-black"
 					bind:value={formData.tipoPosProcessamento}
 				>
 					<option value="CUSTOM">CUSTOM</option>
@@ -122,13 +142,13 @@
 			<!-- Campo Versão -->
 			<div class="form-control">
 				<label class="label" for="versao">
-					<span class="label-text font-semibold">Versão</span>
+					<span class="label-text font-semibold text-black">Versão</span>
 				</label>
 				<input
 					type="number"
 					id="versao"
 					readonly
-					class="input input-bordered w-full"
+					class="input input-bordered w-full text-black"
 					bind:value={formData.versao}
 					placeholder="Digite a versão"
 					required
@@ -138,12 +158,12 @@
 			<!-- Campo Chaves de Chamadas -->
 			<div class="form-control">
 				<label class="label" for="formatoChave">
-					<span class="label-text font-semibold">Formato da Chave</span>
+					<span class="label-text font-semibold text-black">Formato da Chave</span>
 				</label>
 				<input
 					type="text"
 					id="formatoChave"
-					class="input input-bordered w-full"
+					class="input input-bordered w-full text-black"
 					bind:value={formData.formatoChave}
 					placeholder="Digite o formato da chave (ex: &#123;getCustomer:id&#125;)"
 					required
@@ -153,49 +173,50 @@
 			<!-- Campo Chamadas -->
 			{#each formData.chamadas as chamada, index}
 				<div class="form-control border border-gray-300 rounded-lg p-6 mb-6">
-					<h3 class="text-xl font-bold mb-4">Chamada {index + 1}</h3>
+					<h3 class="text-xl font-bold mb-4 text-black">Chamada {index + 1}</h3>
 
 					<label class="label" for="ordem-{index}">
-						<span class="label-text font-semibold">Ordem</span>
+						<span class="label-text font-semibold text-black">Ordem</span>
 					</label>
 					<input
 						type="number"
 						id="ordem-{index}"
-						class="input input-bordered w-full"
+						class="input input-bordered w-full text-black"
 						bind:value={chamada.ordem}
 						required
 					/>
 
 					<label class="label" for="nomeChamada-{index}">
-						<span class="label-text font-semibold">Nome da Chamada</span>
+						<span class="label-text font-semibold text-black">Nome da Chamada</span>
 					</label>
 					<input
 						type="text"
 						id="nomeChamada-{index}"
-						class="input input-bordered w-full"
+						class="input input-bordered w-full text-black"
 						bind:value={chamada.nome}
 						placeholder="Digite o nome da chamada"
 						required
 					/>
 
 					<label class="label" for="url-{index}">
-						<span class="label-text font-semibold">URL</span>
+						<span class="label-text font-semibold text-black">URL</span>
 					</label>
 					<input
 						type="text"
 						id="url-{index}"
-						class="input input-bordered w-full"
+						class="input input-bordered w-full text-black"
 						bind:value={chamada.url}
 						placeholder="Digite a URL"
 						required
 					/>
 
 					<label class="label" for="descricaoChamada-{index}">
-						<span class="label-text font-semibold">Descrição da Chamada</span>
+						<span class="label-text font-semibold text-black">Descrição da Chamada</span
+						>
 					</label>
 					<textarea
 						id="descricaoChamada-{index}"
-						class="textarea textarea-bordered w-full"
+						class="textarea textarea-bordered w-full text-black"
 						bind:value={chamada.descricao}
 						placeholder="Digite a descrição da chamada"
 						required
@@ -205,7 +226,7 @@
 
 			<!-- Botão para adicionar uma nova chamada -->
 			<div class="flex justify-end">
-				<button type="button" class="btn btn-outline btn-secondary" on:click={addChamada}
+				<button type="button" class="btn btn-outline btn- text-black" on:click={addChamada}
 					>Adicionar Chamada</button
 				>
 			</div>
