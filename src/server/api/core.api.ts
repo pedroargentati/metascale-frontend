@@ -68,4 +68,78 @@ export class CoreApi {
 			throw new Error('Erro ao realizar a requisição POST.');
 		}
 	}
+
+	/**
+	 * Método genérico para realizar uma requisição PUT.
+	 *
+	 * @param {string} url - URL da API que será chamada.
+	 * @param {unknown} body - O corpo da requisição que será enviado.
+	 * @param {Record<string, string>} [headers] - Cabeçalhos adicionais para a requisição.
+	 * @returns {Promise<T>} Uma promessa que resolve com a resposta no formato genérico especificado.
+	 * @throws {Error} Se a requisição falhar ou se a resposta não for bem-sucedida.
+	 */
+	public static async put<T>(
+		url: string,
+		body: unknown,
+		headers: Record<string, string> = {},
+	): Promise<T> {
+		try {
+			const response: Response = await fetch(url, {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json',
+					...headers,
+				},
+				body: JSON.stringify(body),
+			});
+
+			if (!response.ok) {
+				throw new Error(
+					`Erro na resposta da API: ${response.status} - ${response.statusText}`,
+				);
+			}
+
+			return await response.json();
+		} catch (error) {
+			console.error(`Erro ao fazer PUT para a URL ${url}:`, error);
+			throw new Error('Erro ao realizar a requisição PUT.');
+		}
+	}
+
+	/**
+	 * Método genérico para realizar uma requisição PATCH.
+	 *
+	 * @param {string} url - URL da API que será chamada.
+	 * @param {unknown} body - O corpo da requisição que será enviado.
+	 * @param {Record<string, string>} [headers] - Cabeçalhos adicionais para a requisição.
+	 * @returns {Promise<T>} Uma promessa que resolve com a resposta no formato genérico especificado.
+	 * @throws {Error} Se a requisição falhar ou se a resposta não for bem-sucedida.
+	 */
+	public static async patch<T>(
+		url: string,
+		body: unknown,
+		headers: Record<string, string> = {},
+	): Promise<T> {
+		try {
+			const response: Response = await fetch(url, {
+				method: 'PATCH',
+				headers: {
+					'Content-Type': 'application/json',
+					...headers,
+				},
+				body: JSON.stringify(body),
+			});
+
+			if (!response.ok) {
+				throw new Error(
+					`Erro na resposta da API: ${response.status} - ${response.statusText}`,
+				);
+			}
+
+			return await response.json();
+		} catch (error) {
+			console.error(`Erro ao fazer PATCH para a URL ${url}:`, error);
+			throw new Error('Erro ao realizar a requisição PATCH.');
+		}
+	}
 }

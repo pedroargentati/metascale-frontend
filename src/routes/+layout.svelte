@@ -5,19 +5,23 @@
 
 <div class="overflow-hidden flex h-svh w-full flex-col">
 	<header class="navbar bg-base-200 flex justify-between px-16 py-4">
-		<div>
+		<div class="flex items-center gap-4">
 			<img src="vivo-logo.png" alt="logo" class="h-10" />
 			<h1 class="font-semibold text-lg">| Cicada</h1>
 		</div>
 		<ul class="flex gap-8 rounded-none">
-			<MenuItem icon="fluent:database-48-regular" label="Cadastros" link="canonical" />
+			<MenuItem icon="fluent:database-48-regular" label="Cadastros" link="/" />
 			<MenuItem icon="fluent:person-48-regular" label="Pessoas" link="people" />
 		</ul>
 	</header>
 
 	<main
-		class="flex size-full flex-auto overflow-hidden bg-gradient-to-tr from-primary via-secondary to-accent p-4"
+		class="flex size-full flex-auto overflow-auto bg-gradient-to-tr from-primary via-secondary to-accent p-4"
 	>
 		<slot />
 	</main>
+
+	<footer class="bg-base-200 text-center py-4 mt-auto">
+		<p class="text-sm">© Cicada | Metascale - Todos os direitos reservados - 1.0.0</p>
+	</footer>
 </div>
