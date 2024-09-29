@@ -104,6 +104,22 @@
 		};
 	}
 
+	// Função para adicionar um novo parâmetro a uma chamada
+	function addParametro(chamadaIndex: number) {
+		const chamada = formData.chamadas[chamadaIndex];
+		chamada.parametros = [
+			...chamada.parametros,
+			{ tipoDado: 'string', nome: '', tipo: 'query' },
+		];
+
+		// Atualizar o formData com as mudanças da chamada específica
+		formData.chamadas = [
+			...formData.chamadas.slice(0, chamadaIndex),
+			chamada,
+			...formData.chamadas.slice(chamadaIndex + 1),
+		];
+	}
+
 	function goBack(): void {
 		goto('/');
 	}
@@ -204,56 +220,127 @@
 			</div>
 
 			<!-- Campo Chamadas -->
-			{#each formData.chamadas as chamada, index}
+			{#each formData.chamadas as chamada, chamadaIndex}
 				<div class="form-control border border-gray-300 rounded-lg p-6 mb-6">
-					<h3 class="text-xl font-bold mb-4 text-black">Chamada {index + 1}</h3>
+					<h3 class="text-xl font-bold mb-4 text-black">Chamada {chamadaIndex + 1}</h3>
 
-					<label class="label" for="ordem-{index}">
+					<label class="label" for="ordem-{chamadaIndex}">
 						<span class="label-text font-semibold text-black">Ordem</span>
 					</label>
 					<input
 						type="number"
-						id="ordem-{index}"
+						id="ordem-{chamadaIndex}"
 						class="input input-bordered w-full text-black"
 						bind:value={chamada.ordem}
 						required
 					/>
 
-					<label class="label" for="nomeChamada-{index}">
+					<label class="label" for="nomeChamada-{chamadaIndex}">
 						<span class="label-text font-semibold text-black">Nome da Chamada</span>
 					</label>
 					<input
 						type="text"
-						id="nomeChamada-{index}"
+						id="nomeChamada-{chamadaIndex}"
 						class="input input-bordered w-full text-black"
 						bind:value={chamada.nome}
 						placeholder="Digite o nome da chamada"
 						required
 					/>
 
-					<label class="label" for="url-{index}">
+					<label class="label" for="url-{chamadaIndex}">
 						<span class="label-text font-semibold text-black">URL</span>
 					</label>
 					<input
 						type="text"
-						id="url-{index}"
+						id="url-{chamadaIndex}"
 						class="input input-bordered w-full text-black"
 						bind:value={chamada.url}
 						placeholder="Digite a URL"
 						required
 					/>
 
-					<label class="label" for="descricaoChamada-{index}">
+					<label class="label" for="descricaoChamada-{chamadaIndex}">
 						<span class="label-text font-semibold text-black">Descrição da Chamada</span
 						>
 					</label>
 					<textarea
-						id="descricaoChamada-{index}"
+						id="descricaoChamada-{chamadaIndex}"
 						class="textarea textarea-bordered w-full text-black"
 						bind:value={chamada.descricao}
 						placeholder="Digite a descrição da chamada"
 						required
 					></textarea>
+
+					<!-- Campo Parâmetros -->
+					{#each chamada.parametros as parametro, parametroIndex}
+						<div class="form-control border border-gray-200 rounded-lg p-4 mb-4">
+							<h4 class="text-lg font-bold mb-2 text-black">
+								Parâmetro {parametroIndex + 1}
+							</h4>
+
+							<label
+								class="label"
+								for="nomeParametro-{chamadaIndex}-{parametroIndex}"
+							>
+								<span class="label-text font-semibold text-black"
+									>Nome do Parâmetro</span
+								>
+							</label>
+							<input
+								type="text"
+								id="nomeParametro-{chamadaIndex}-{parametroIndex}"
+								class="input input-bordered w-full text-black"
+								bind:value={parametro.nome}
+								placeholder="Digite o nome do parâmetro"
+								required
+							/>
+
+							<label class="label" for="tipoDado-{chamadaIndex}-{parametroIndex}">
+								<span class="label-text font-semibold text-black">Tipo de Dado</span
+								>
+							</label>
+							<select
+								id="tipoDado-{chamadaIndex}-{parametroIndex}"
+								class="select select-bordered w-full text-black"
+								bind:value={parametro.tipoDado}
+								required
+							>
+								<option value="string">string</option>
+								<option value="number">number</option>
+								<option value="boolean">boolean</option>
+							</select>
+
+							<label
+								class="label"
+								for="tipoParametro-{chamadaIndex}-{parametroIndex}"
+							>
+								<span class="label-text font-semibold text-black"
+									>Tipo de Parâmetro</span
+								>
+							</label>
+							<select
+								id="tipoParametro-{chamadaIndex}-{parametroIndex}"
+								class="select select-bordered w-full text-black"
+								bind:value={parametro.tipo}
+								required
+							>
+								<option value="query">query</option>
+								<option value="path">path</option>
+								<option value="body">body</option>
+							</select>
+						</div>
+					{/each}
+
+					<!-- Botão para adicionar um novo parâmetro -->
+					<div class="flex justify-end">
+						<button
+							type="button"
+							class="btn btn-outline btn- text-black"
+							on:click={() => addParametro(chamadaIndex)}
+						>
+							Adicionar Parâmetro
+						</button>
+					</div>
 				</div>
 			{/each}
 
