@@ -23,7 +23,8 @@
 
 	// Funções para ações de Editar e Excluir
 	function handleEdit(row: any) {
-		goto(`/canonical/edit/${row.id}`);
+		console.log(row);
+		goto(`/canonical-new/${row.nomeCanonico}`);
 	}
 
 	function handleDelete(row: any) {

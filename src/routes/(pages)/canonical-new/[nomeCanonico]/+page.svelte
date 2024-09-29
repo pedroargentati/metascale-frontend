@@ -1,9 +1,14 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 	import Icon from '@iconify/svelte';
-	import type { ICanonico } from './../../../core/interfaces/canonico';
+	import { onMount } from 'svelte';
+	import { get } from 'svelte/store';
+	import type { ICanonico } from '../../../../core/interfaces/canonico';
+	import { CanonicoService } from '../../../../server/services/canonical';
 
-	const formData: ICanonico = {
+	// Dados do formulário, com estrutura correspondente ao objeto fornecido
+	let formData: ICanonico = {
 		statusCanonico: 'A',
 		chamadas: [],
 		descricao: '',
@@ -14,40 +19,89 @@
 		formatoChave: '',
 	};
 
+	let itemId: string | null = null;
+
+	onMount(async () => {
+		const $page = get(page);
+		console.log($page.params);
+
+		// Verificar se o parâmetro 'nomeCanonico' está presente
+		if ($page.params && $page.params.nomeCanonico) {
+			itemId = $page.params.nomeCanonico;
+
+			// Buscando os dados do item a ser editado
+			try {
+				const canonico: ICanonico = await CanonicoService.getCanonicoById(itemId);
+				if (!canonico) {
+					throw new Error('Erro ao buscar dados do item');
+				}
+				// Preenchendo o formData com os dados do item
+				formData = canonico;
+			} catch (error) {
+				console.error('Erro ao buscar o item:', error);
+				alert(`Erro ao carregar os dados do item: ${(error as Error).message}`);
+				goto('/');
+			}
+		} else {
+			alert('Item inválido. Redirecionando para a página inicial.');
+			goto('/');
+		}
+	});
+
 	function handleSubmit() {
 		try {
+			// Validar o formato da chave
 			validateFormatoChave(formData.formatoChave);
-			console.log('Formulário de inclusão enviado:', formData);
-			alert('Registro incluído com sucesso!');
+
+			// Lógica de envio do formulário para o backend
+			console.log('Formulário de edição enviado:', formData);
+			alert('Registro editado com sucesso!');
+
+			// Redirecionar após a edição
 			goto('/');
 		} catch (error) {
+			// Tratamento de erro de validação
 			alert(`Erro ao enviar formulário: ${(error as Error).message}`);
 			console.error(error);
 		}
 	}
 
 	function handleCancel() {
+		// Redirecionar para a página principal sem salvar
 		goto('/');
 	}
 
+	// Função para validar o formato da chave usando regex
 	function validateFormatoChave(formatoChave: string) {
 		const regex = /^\{[a-zA-Z]+:[a-zA-Z]+\}(?:\{[a-zA-Z]+:[a-zA-Z]+\})*$/;
 		if (!regex.test(formatoChave)) {
-			throw new Error('O campo "Formato da Chave" deve ter a estrutura correta.');
+			throw new Error(
+				'O campo "Formato da Chave" deve ter a estrutura correta: "{nome:parametro}" ou múltiplos "{nome:parametro}".',
+			);
 		}
 	}
 
+	// Função para adicionar uma nova chamada
 	function addChamada() {
-		formData.chamadas = [
-			...formData.chamadas,
-			{
-				ordem: formData.chamadas.length + 1,
-				nome: '',
-				parametros: [{ tipoDado: 'number', nome: '', tipo: 'path' }],
-				url: '',
-				descricao: '',
-			},
-		];
+		const novaChamada = {
+			ordem: formData.chamadas.length + 1,
+			nome: '',
+			parametros: [
+				{
+					tipoDado: 'number',
+					nome: '',
+					tipo: 'path',
+				},
+			],
+			url: '',
+			descricao: '',
+		};
+
+		// Atualizar o array de chamadas de forma reativa
+		formData = {
+			...formData,
+			chamadas: [...formData.chamadas, novaChamada],
+		};
 	}
 
 	function goBack(): void {
@@ -57,7 +111,7 @@
 
 <div class="min-h-screen w-full flex items-start justify-center p-8 overflow-auto">
 	<div class="w-full max-w-5xl bg-white shadow-xl rounded-lg p-10 mt-8">
-		<!-- Formulário de inclusão -->
+		<!-- Formulário de Edição -->
 		<form on:submit|preventDefault={handleSubmit} class="space-y-6">
 			<!-- Botão de Voltar -->
 			<button
@@ -70,7 +124,7 @@
 			</button>
 
 			<!-- Título do Formulário -->
-			<h2 class="text-3xl font-bold mb-8 text-center text-black">Incluir Novo Canônico</h2>
+			<h2 class="text-3xl font-bold mb-8 text-center text-black">Editar Canônico</h2>
 
 			<!-- Campo Nome -->
 			<div class="form-control">
@@ -205,17 +259,17 @@
 
 			<!-- Botão para adicionar uma nova chamada -->
 			<div class="flex justify-end">
-				<button type="button" class="btn btn-outline btn- text-black" on:click={addChamada}
-					>Adicionar Chamada</button
-				>
+				<button type="button" class="btn btn-outline btn- text-black" on:click={addChamada}>
+					Adicionar Chamada
+				</button>
 			</div>
 
 			<!-- Botões de Ação -->
 			<div class="flex gap-6 mt-8">
 				<button type="submit" class="btn btn-primary w-1/2">Salvar</button>
-				<button type="button" class="btn btn-secondary w-1/2" on:click={handleCancel}
-					>Cancelar</button
-				>
+				<button type="button" class="btn btn-secondary w-1/2" on:click={handleCancel}>
+					Cancelar
+				</button>
 			</div>
 		</form>
 	</div>

@@ -33,11 +33,11 @@ export class CanonicoService {
 	/**
 	 * Busca um Canonico específico pelo ID.
 	 *
-	 * @param {number} id - ID do Canonico a ser buscado.
+	 * @param {string} id - ID do Canonico a ser buscado.
 	 * @returns {Promise<ICanonico>} Uma promessa que resolve com um objeto do tipo ICanonico.
 	 * @throws {Error} Se houver um erro ao realizar a requisição ou se a resposta não for bem-sucedida.
 	 */
-	public static async getCanonicoById(id: number): Promise<ICanonico> {
+	public static async getCanonicoById(id: string): Promise<ICanonico> {
 		const url = `${this.BASE_URL}/${id}`;
 		return await CoreApi.get<ICanonico>(url);
 	}
