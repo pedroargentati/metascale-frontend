@@ -101,12 +101,18 @@
 			descricao: '',
 		};
 
-		// Atualizar o array de chamadas de forma reativa
 		formData = {
 			...formData,
 			chamadas: [...formData.chamadas, novaChamada],
 		};
 		toastr.success('Nova chamada adicionada.', 'Sucesso');
+	}
+
+	// Função para remover uma chamada
+	function removeChamada(chamadaIndex: number) {
+		console.log('removendo chamada', chamadaIndex);
+		formData.chamadas = formData.chamadas.filter((_, index) => index !== chamadaIndex);
+		toastr.info('Chamada removida.', 'Info');
 	}
 
 	// Função para adicionar um novo parâmetro a uma chamada
@@ -117,13 +123,26 @@
 			{ tipoDado: 'string', nome: '', tipo: 'query' },
 		];
 
-		// Atualizar o formData com as mudanças da chamada específica
 		formData.chamadas = [
 			...formData.chamadas.slice(0, chamadaIndex),
 			chamada,
 			...formData.chamadas.slice(chamadaIndex + 1),
 		];
 		toastr.success('Novo parâmetro adicionado.', 'Sucesso');
+	}
+
+	// Função para remover um parâmetro
+	function removeParametro(chamadaIndex: number, parametroIndex: number) {
+		console.log('removendo parametro', chamadaIndex, parametroIndex);
+		const chamada = formData.chamadas[chamadaIndex];
+		chamada.parametros = chamada.parametros.filter((_, index) => index !== parametroIndex);
+
+		formData.chamadas = [
+			...formData.chamadas.slice(0, chamadaIndex),
+			chamada,
+			...formData.chamadas.slice(chamadaIndex + 1),
+		];
+		toastr.info('Parâmetro removido.', 'Info');
 	}
 
 	function goBack(): void {
@@ -227,8 +246,14 @@
 
 			<!-- Campo Chamadas -->
 			{#each formData.chamadas as chamada, chamadaIndex}
-				<div class="form-control border border-gray-300 rounded-lg p-6 mb-6">
+				<div class="form-control border border-gray-300 rounded-lg p-6 mb-6 relative">
 					<h3 class="text-xl font-bold mb-4 text-black">Chamada {chamadaIndex + 1}</h3>
+					<button on:click={() => removeChamada(chamadaIndex)} type="button">
+						<Icon
+							icon="mdi:close"
+							class="cursor-pointer text-red-600 absolute top-2 right-2"
+						/>
+					</button>
 
 					<label class="label" for="ordem-{chamadaIndex}">
 						<span class="label-text font-semibold text-black">Ordem</span>
@@ -279,11 +304,21 @@
 
 					<!-- Campo Parâmetros -->
 					{#each chamada.parametros as parametro, parametroIndex}
-						<div class="form-control border border-gray-200 rounded-lg p-4 mb-4">
+						<div
+							class="form-control border border-gray-200 rounded-lg p-4 mb-4 relative"
+						>
 							<h4 class="text-lg font-bold mb-2 text-black">
 								Parâmetro {parametroIndex + 1}
 							</h4>
-
+							<button
+								on:click={() => removeParametro(chamadaIndex, parametroIndex)}
+								type="button"
+							>
+								<Icon
+									icon="mdi:close"
+									class="cursor-pointer text-red-600 absolute top-2 right-2"
+								/>
+							</button>
 							<label
 								class="label"
 								for="nomeParametro-{chamadaIndex}-{parametroIndex}"
