@@ -4,6 +4,7 @@
 	import Icon from '@iconify/svelte';
 	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
+	import toastr from 'toastr';
 	import type { ICanonico } from '../../../../core/interfaces/canonico';
 	import { CanonicoService } from '../../../../server/services/canonical';
 
@@ -39,11 +40,14 @@
 				formData = canonico;
 			} catch (error) {
 				console.error('Erro ao buscar o item:', error);
-				alert(`Erro ao carregar os dados do item: ${(error as Error).message}`);
+				toastr.error(
+					`Erro ao carregar os dados do item: ${(error as Error).message}`,
+					'Erro',
+				);
 				goto('/');
 			}
 		} else {
-			alert('Item inválido. Redirecionando para a página inicial.');
+			toastr.error('Item inválido. Redirecionando para a página inicial.', 'Erro');
 			goto('/');
 		}
 	});
@@ -55,13 +59,13 @@
 
 			// Lógica de envio do formulário para o backend
 			console.log('Formulário de edição enviado:', formData);
-			alert('Registro editado com sucesso!');
+			toastr.success('Registro editado com sucesso!', 'Sucesso');
 
 			// Redirecionar após a edição
 			goto('/');
 		} catch (error) {
 			// Tratamento de erro de validação
-			alert(`Erro ao enviar formulário: ${(error as Error).message}`);
+			toastr.error(`Erro ao enviar formulário: ${(error as Error).message}`, 'Erro');
 			console.error(error);
 		}
 	}
@@ -102,6 +106,7 @@
 			...formData,
 			chamadas: [...formData.chamadas, novaChamada],
 		};
+		toastr.success('Nova chamada adicionada.', 'Sucesso');
 	}
 
 	// Função para adicionar um novo parâmetro a uma chamada
@@ -118,6 +123,7 @@
 			chamada,
 			...formData.chamadas.slice(chamadaIndex + 1),
 		];
+		toastr.success('Novo parâmetro adicionado.', 'Sucesso');
 	}
 
 	function goBack(): void {

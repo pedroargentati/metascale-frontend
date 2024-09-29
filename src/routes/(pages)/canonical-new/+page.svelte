@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import Icon from '@iconify/svelte';
+	import toastr from 'toastr';
 	import type { ICanonico } from './../../../core/interfaces/canonico';
 
 	const formData: ICanonico = {
@@ -18,10 +19,10 @@
 		try {
 			validateFormatoChave(formData.formatoChave);
 			console.log('Formulário de inclusão enviado:', formData);
-			alert('Registro incluído com sucesso!');
+			toastr.success('Registro incluído com sucesso!', 'Sucesso');
 			goto('/');
 		} catch (error) {
-			alert(`Erro ao enviar formulário: ${(error as Error).message}`);
+			toastr.error(`Erro ao enviar formulário: ${(error as Error).message}`, 'Erro');
 			console.error(error);
 		}
 	}
@@ -48,6 +49,12 @@
 				descricao: '',
 			},
 		];
+		toastr.success('Nova chamada adicionada.', 'Sucesso');
+	}
+
+	function removeChamada(chamadaIndex: number) {
+		formData.chamadas = formData.chamadas.filter((_, index) => index !== chamadaIndex);
+		toastr.info('Chamada removida.', 'Info');
 	}
 
 	function addParametro(chamadaIndex: number) {
@@ -63,6 +70,21 @@
 			chamada,
 			...formData.chamadas.slice(chamadaIndex + 1),
 		];
+		toastr.success('Novo parâmetro adicionado.', 'Sucesso');
+	}
+
+	function removeParametro(chamadaIndex: number, parametroIndex: number) {
+		console.log('removendo parametro', chamadaIndex, parametroIndex);
+		const chamada = formData.chamadas[chamadaIndex];
+		chamada.parametros = chamada.parametros.filter((_, index) => index !== parametroIndex);
+
+		// Atualizar o formData com as mudanças da chamada específica
+		formData.chamadas = [
+			...formData.chamadas.slice(0, chamadaIndex),
+			chamada,
+			...formData.chamadas.slice(chamadaIndex + 1),
+		];
+		toastr.info('Parâmetro removido.', 'Info');
 	}
 
 	function goBack(): void {
@@ -166,8 +188,18 @@
 
 			<!-- Campo Chamadas -->
 			{#each formData.chamadas as chamada, chamadaIndex}
-				<div class="form-control border border-gray-300 rounded-lg p-6 mb-6">
-					<h3 class="text-xl font-bold mb-4 text-black">Chamada {chamadaIndex + 1}</h3>
+				<div class="form-control border border-gray-300 rounded-lg p-6 mb-6 relative">
+					<!-- Ícone de exclusão da chamada -->
+					<button on:click={() => removeChamada(chamadaIndex)}>
+						<Icon
+							icon="mdi:close"
+							class="cursor-pointer text-red-600 absolute top-2 right-2"
+						/>
+					</button>
+
+					<h3 class="text-xl font-bold mb-4 text-black">
+						Chamada {chamadaIndex + 1}
+					</h3>
 
 					<label class="label" for="ordem-{chamadaIndex}">
 						<span class="label-text font-semibold text-black">Ordem</span>
@@ -218,7 +250,17 @@
 
 					<!-- Campo Parâmetros -->
 					{#each chamada.parametros as parametro, parametroIndex}
-						<div class="form-control border border-gray-200 rounded-lg p-4 mb-4">
+						<div
+							class="form-control border border-gray-200 rounded-lg p-4 mb-4 relative"
+						>
+							<!-- Ícone de exclusão do parâmetro -->
+							<button on:click={() => removeParametro(chamadaIndex, parametroIndex)}>
+								<Icon
+									icon="mdi:close"
+									class="cursor-pointer text-red-600 absolute top-2 right-2"
+								/>
+							</button>
+
 							<h4 class="text-lg font-bold mb-2 text-black">
 								Parâmetro {parametroIndex + 1}
 							</h4>
