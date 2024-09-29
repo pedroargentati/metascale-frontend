@@ -8,6 +8,8 @@
 		DataTableView,
 	} from '$lib/components';
 	import { DataHandler } from '@vincjo/datatables';
+	import toastr from 'toastr';
+	import type { ICanonicoItemList } from '../../core/interfaces/canonico-list';
 
 	export let data: any[] = [];
 	export let rowsPerPage: number = 5;
@@ -16,6 +18,9 @@
 	const handler = new DataHandler(data, { rowsPerPage });
 
 	$: rows = handler.getRows();
+
+	let showModal = false;
+	let selectedRow: ICanonicoItemList | null = null;
 
 	function handleSelect(e: any, row: any) {
 		console.log('e, row: ', e, row);
@@ -27,9 +32,20 @@
 		goto(`/canonical-new/${row.nomeCanonico}`);
 	}
 
-	function handleDelete(row: any) {
-		console.log('Excluir item:', row);
-		alert(`Excluir item: ${row.id}`);
+	function handleInactivate(row: any) {
+		selectedRow = row;
+		showModal = true; // Abrir o modal de confirmação
+	}
+
+	function confirmDelete() {
+		console.log('Inativar item:', selectedRow);
+		toastr.success(`Canônico ${selectedRow?.nomeCanonico} inativado com sucesso !`);
+		showModal = false; // Fechar o modal
+	}
+
+	function cancelDelete() {
+		showModal = false; // Fechar o modal sem realizar nenhuma ação
+		toastr.info('Operação cancelada.');
 	}
 </script>
 
@@ -39,6 +55,7 @@
 		<DataTableSearch handler={handler} />
 		<DataTableView handler={handler} />
 	</header>
+
 	<!-- Table -->
 	<table class="table w-full table-auto bg-primary">
 		<thead>
@@ -62,21 +79,6 @@
 						</td>
 					{/each}
 					<td class="flex items-center gap-2">
-						<!-- Renderização das ações do row -->
-						{#if row.actions}
-							{#each row.actions as action}
-								{#if action.button}
-									<button
-										{...action.button}
-										onclick={() => {
-											if (action.button.onclick) {
-												action.button.onclick(row);
-											}
-										}}
-									/>
-								{/if}
-							{/each}
-						{/if}
 						<!-- Adicionando ações de Editar e Excluir -->
 						<button
 							class="btn btn-xs btn-warning"
@@ -91,19 +93,37 @@
 							class="btn btn-xs btn-error"
 							on:click={(e) => {
 								e.stopPropagation();
-								handleDelete(row);
+								handleInactivate(row);
 							}}
 						>
-							Excluir
+							Inativar
 						</button>
 					</td>
 				</tr>
 			{/each}
 		</tbody>
 	</table>
+
 	<!-- Footer -->
 	<footer class="flex items-center justify-between">
 		<DataTableCount handler={handler} />
 		<DataTablePagination handler={handler} />
 	</footer>
 </div>
+
+<!-- Modal de Confirmação -->
+{#if showModal}
+	<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+		<div class="bg-white p-6 rounded-lg shadow-lg w-96">
+			<h2 class="text-xl font-bold mb-4">Confirmação de Inativação</h2>
+			<p class="mb-6">
+				Você realmente deseja inativar este item? Isso poderá impactar os loads futuros e
+				pode afetar o comportamento do sistema.
+			</p>
+			<div class="flex justify-end gap-4">
+				<button class="btn btn-secondary" on:click={cancelDelete}>Cancelar</button>
+				<button class="btn btn-error" on:click={confirmDelete}>Inativar</button>
+			</div>
+		</div>
+	</div>
+{/if}
