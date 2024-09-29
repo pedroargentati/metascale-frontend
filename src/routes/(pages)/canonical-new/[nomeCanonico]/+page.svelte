@@ -7,6 +7,7 @@
 	import toastr from 'toastr';
 	import type { ICanonico } from '../../../../core/interfaces/canonico';
 	import { CanonicoService } from '../../../../server/services/canonical';
+	import { CanonicalUtils } from './../../../../core/utils/canonical-utils';
 
 	// Dados do formulário, com estrutura correspondente ao objeto fornecido
 	let formData: ICanonico = {
@@ -148,6 +149,11 @@
 	function goBack(): void {
 		goto('/');
 	}
+
+	// Função para gerar o JSON do formulário
+	async function generateJson() {
+		await CanonicalUtils.generateJson(formData);
+	}
 </script>
 
 <div class="min-h-screen w-full flex items-start justify-center p-8 overflow-auto">
@@ -224,7 +230,6 @@
 					readonly
 					class="input input-bordered w-full text-black"
 					bind:value={formData.versao}
-					placeholder="Digite a versão"
 					required
 				/>
 			</div>
@@ -397,6 +402,13 @@
 				<button type="submit" class="btn btn-primary w-1/2">Salvar</button>
 				<button type="button" class="btn btn-secondary w-1/2" on:click={handleCancel}>
 					Cancelar
+				</button>
+			</div>
+
+			<!-- Botão para gerar JSON -->
+			<div class="flex justify-center mt-8 mb-8">
+				<button type="button" class="btn btn-outline btn-info" on:click={generateJson}>
+					Gerar JSON do Formulário
 				</button>
 			</div>
 		</form>

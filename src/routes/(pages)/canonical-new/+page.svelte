@@ -2,6 +2,7 @@
 	import { goto } from '$app/navigation';
 	import Icon from '@iconify/svelte';
 	import toastr from 'toastr';
+	import { CanonicalUtils } from '../../../core/utils/canonical-utils';
 	import type { ICanonico } from './../../../core/interfaces/canonico';
 
 	const formData: ICanonico = {
@@ -89,6 +90,10 @@
 
 	function goBack(): void {
 		goto('/');
+	}
+
+	async function generateJson() {
+		await CanonicalUtils.generateJson(formData);
 	}
 </script>
 
@@ -343,6 +348,13 @@
 				<button type="submit" class="btn btn-primary w-1/2">Salvar</button>
 				<button type="button" class="btn btn-secondary w-1/2" on:click={handleCancel}>
 					Cancelar
+				</button>
+			</div>
+
+			<!-- Botão para gerar JSON -->
+			<div class="flex justify-center mt-8 mb-8">
+				<button type="button" class="btn btn-outline btn-info" on:click={generateJson}>
+					Gerar JSON do Formulário
 				</button>
 			</div>
 		</form>

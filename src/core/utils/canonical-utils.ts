@@ -1,3 +1,4 @@
+import toastr from 'toastr';
 import type { ICanonico } from '../interfaces/canonico';
 
 export class CanonicalUtils {
@@ -19,5 +20,16 @@ export class CanonicalUtils {
 				versaoCanonico: canonical.versao,
 			};
 		});
+	}
+
+	public static async generateJson(formData: ICanonico): Promise<void> {
+		const jsonData = JSON.stringify(formData, null, 2);
+		try {
+			await navigator.clipboard.writeText(jsonData);
+			toastr.success('JSON copiado para o clipboard!', 'Sucesso');
+		} catch (error) {
+			toastr.error('Falha ao copiar JSON para o clipboard.', 'Erro');
+			console.error(error);
+		}
 	}
 }
