@@ -26,6 +26,12 @@ export class CanonicalUtils {
 	public static async generateJson(formData: ICanonico): Promise<void> {
 		const jsonData = JSON.stringify(formData, null, 2);
 		try {
+			if (!jsonData.length) {
+				return toastr.error(
+					'O formulário está vazio ! Primeiro popule o formulário.',
+					'Erro',
+				);
+			}
 			await navigator.clipboard.writeText(jsonData);
 			toastr.success('JSON copiado para o clipboard!', 'Sucesso');
 		} catch (error) {
