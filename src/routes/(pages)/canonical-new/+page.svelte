@@ -287,7 +287,7 @@
 					<!-- Campo Parâmetros -->
 					{#each chamada.parametros as parametro, parametroIndex}
 						<div
-							class="form-control border border-gray-200 rounded-lg p-4 mb-4 relative"
+							class="form-control border border-gray-200 rounded-lg p-4 mb-4 relative mt-4"
 						>
 							<!-- Ícone de exclusão do parâmetro -->
 							<button

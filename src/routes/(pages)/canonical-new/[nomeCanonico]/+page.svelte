@@ -342,7 +342,7 @@
 					<!-- Campo Parâmetros -->
 					{#each chamada.parametros as parametro, parametroIndex}
 						<div
-							class="form-control border border-gray-200 rounded-lg p-4 mb-4 relative"
+							class="form-control border border-gray-200 rounded-lg p-4 mb-4 relative mt-4"
 						>
 							<h4 class="text-lg font-bold mb-2 text-black">
 								Parâmetro {parametroIndex + 1}
