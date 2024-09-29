@@ -11,4 +11,9 @@
 	}
 </script>
 
-<input class="input bg-base-200" type="search" placeholder="Pesquisar" bind:value={value} />
+<input
+	class="input bg-white border border-base-300 text-base-content w-full"
+	type="search"
+	placeholder="Pesquisar"
+	bind:value={value}
+/>

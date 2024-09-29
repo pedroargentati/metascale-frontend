@@ -1,6 +1,5 @@
 <script>
 	import '$app.postcss';
-	import { goto } from '$app/navigation';
 	import { MenuItem } from '$lib/components';
 </script>
 
@@ -9,9 +8,6 @@
 		<div class="flex items-center gap-4">
 			<img src="vivo-logo.png" alt="logo" class="h-10" />
 			<h1 class="font-semibold text-lg">| Cicada</h1>
-			<button class="btn btn-primary" on:click={() => goto('/canonical/new')}>
-				Incluir
-			</button>
 		</div>
 		<ul class="flex gap-8 rounded-none">
 			<MenuItem icon="fluent:database-48-regular" label="Cadastros" link="canonical" />
@@ -20,7 +16,7 @@
 	</header>
 
 	<main
-		class="flex size-full flex-auto overflow-hidden bg-gradient-to-tr from-primary via-secondary to-accent p-4"
+		class="flex size-full flex-auto overflow-auto bg-gradient-to-tr from-primary via-secondary to-accent p-4"
 	>
 		<slot />
 	</main>

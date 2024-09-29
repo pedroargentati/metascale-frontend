@@ -6,7 +6,6 @@
 </script>
 
 <div>
-	Mostrar
 	<select
 		class="select ml-2 bg-base-200"
 		bind:value={$rowsPerPage}
