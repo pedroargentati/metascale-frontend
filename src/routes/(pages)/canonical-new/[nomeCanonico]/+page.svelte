@@ -148,6 +148,18 @@
 		toastr.info('Parâmetro removido.', 'Info');
 	}
 
+	// Função para adicionar um novo tópico
+	function addTopico() {
+		formData.topicos = [...formData.topicos, ''];
+		toastr.success('Novo tópico adicionado.', 'Sucesso');
+	}
+
+	// Função para remover um tópico
+	function removeTopico(topicoIndex: number) {
+		formData.topicos = formData.topicos.filter((_, index) => index !== topicoIndex);
+		toastr.info('Tópico removido.', 'Info');
+	}
+
 	function goBack(): void {
 		goto('/');
 	}
@@ -236,19 +248,37 @@
 				/>
 			</div>
 
-			<!-- Campo Chaves de Chamadas -->
-			<div class="form-control">
-				<label class="label" for="formatoChave">
-					<span class="label-text font-semibold text-black">Formato da Chave</span>
-				</label>
-				<input
-					type="text"
-					id="formatoChave"
-					class="input input-bordered w-full text-black"
-					bind:value={formData.formatoChave}
-					placeholder="Digite o formato da chave (ex: &#123;getCustomer:id&#125;)"
-					required
-				/>
+			<!-- Campo Tópicos -->
+			{#each formData.topicos as topico, topicoIndex}
+				<div class="form-control mb-4 relative">
+					<label class="label" for="topico-{topicoIndex}">
+						<span class="label-text font-semibold text-black"
+							>Tópico {topicoIndex + 1}</span
+						>
+					</label>
+					<input
+						type="text"
+						id="topico-{topicoIndex}"
+						class="input input-bordered w-full text-black"
+						bind:value={formData.topicos[topicoIndex]}
+						placeholder="Digite o tópico"
+						required
+					/>
+					<button
+						on:click={() => removeTopico(topicoIndex)}
+						type="button"
+						class="absolute top-2 right-2"
+					>
+						<Icon icon="mdi:close" class="cursor-pointer text-red-600" />
+					</button>
+				</div>
+			{/each}
+
+			<!-- Botão para adicionar um novo tópico -->
+			<div class="flex justify-end mb-6">
+				<button type="button" class="btn btn-outline btn-info" on:click={addTopico}>
+					Adicionar Tópico
+				</button>
 			</div>
 
 			<!-- Campo Chamadas -->
