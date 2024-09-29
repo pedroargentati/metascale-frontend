@@ -6,8 +6,8 @@
 	import { get } from 'svelte/store';
 	import toastr from 'toastr';
 	import type { ICanonico } from '../../../../core/interfaces/canonico';
-	import { CanonicoService } from '../../../../server/services/canonical';
 	import { CanonicalUtils } from './../../../../core/utils/canonical-utils';
+	import { CanonicoService } from './../../../../server/services/canonical';
 
 	// Dados do formulário, com estrutura correspondente ao objeto fornecido
 	let formData: ICanonico = {
@@ -53,10 +53,12 @@
 		}
 	});
 
-	function handleSubmit() {
+	async function handleSubmit() {
 		try {
 			// Validar o formato da chave
 			validateFormatoChave(formData.formatoChave);
+
+			await CanonicoService.updateCanonico(formData);
 
 			// Lógica de envio do formulário para o backend
 			console.log('Formulário de edição enviado:', formData);

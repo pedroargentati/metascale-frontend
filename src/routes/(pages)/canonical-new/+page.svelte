@@ -3,6 +3,7 @@
 	import Icon from '@iconify/svelte';
 	import toastr from 'toastr';
 	import { CanonicalUtils } from '../../../core/utils/canonical-utils';
+	import { CanonicoService } from '../../../server/services/canonical';
 	import type { ICanonico } from './../../../core/interfaces/canonico';
 
 	const formData: ICanonico = {
@@ -16,10 +17,14 @@
 		formatoChave: '',
 	};
 
-	function handleSubmit() {
+	async function handleSubmit() {
 		try {
 			validateFormatoChave(formData.formatoChave);
 			console.log('Formulário de inclusão enviado:', formData);
+
+			// Enviar o formulário para a API
+			await CanonicoService.createCanonico(formData);
+
 			toastr.success('Registro incluído com sucesso!', 'Sucesso');
 			goto('/');
 		} catch (error) {

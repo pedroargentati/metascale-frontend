@@ -52,4 +52,16 @@ export class CanonicoService {
 	public static async createCanonico(canonico: ICanonico): Promise<ICanonico> {
 		return await CoreApi.post<ICanonico>(this.BASE_URL, canonico);
 	}
+
+	/**
+	 * Atualiza um Canonico existente.
+	 *
+	 * @param {ICanonico} canonico - Dados do Canonico a ser atualizado.
+	 * @returns {Promise<ICanonico>} Uma promessa que resolve com o Canonico atualizado.
+	 * @throws {Error} Se houver um erro ao realizar a requisição ou se a resposta não for bem-sucedida.
+	 */
+	public static async updateCanonico(canonico: ICanonico): Promise<ICanonico> {
+		const url: string = `${this.BASE_URL}/${canonico.nome}`;
+		return await CoreApi.put<ICanonico>(url, canonico);
+	}
 }
