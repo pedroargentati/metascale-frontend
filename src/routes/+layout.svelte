@@ -20,4 +20,8 @@
 	>
 		<slot />
 	</main>
+
+	<footer class="bg-base-200 text-center py-4 mt-auto">
+		<p class="text-sm">© Cicada | Metascale - Todos os direitos reservados - 1.0.0</p>
+	</footer>
 </div>
