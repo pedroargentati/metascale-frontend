@@ -9,7 +9,9 @@
 	} from '$lib/components';
 	import { DataHandler } from '@vincjo/datatables';
 	import toastr from 'toastr';
+	import type { ICanonico } from '../../core/interfaces/canonico';
 	import type { ICanonicoItemList } from '../../core/interfaces/canonico-list';
+	import { CanonicoService } from '../../server/services/canonical';
 
 	export let data: any[] = [];
 	export let rowsPerPage: number = 5;
@@ -37,10 +39,21 @@
 		showModal = true; // Abrir o modal de confirmação
 	}
 
-	function confirmDelete() {
-		console.log('Inativar item:', selectedRow);
-		toastr.success(`Canônico ${selectedRow?.nomeCanonico} inativado com sucesso !`);
-		showModal = false; // Fechar o modal
+	async function confirmDelete() {
+		try {
+			console.log('Inativar item:', selectedRow);
+
+			// Inativar o item
+			await CanonicoService.inactivateCanonico({
+				nome: selectedRow?.nomeCanonico,
+			} as ICanonico);
+
+			toastr.success(`Canônico ${selectedRow?.nomeCanonico} inativado com sucesso !`);
+			showModal = false; // Fechar o modal
+		} catch (error) {
+			console.error('Erro ao inativar o item:', error);
+			toastr.error('Erro ao inativar o item. Tente novamente mais tarde.');
+		}
 	}
 
 	function cancelDelete() {

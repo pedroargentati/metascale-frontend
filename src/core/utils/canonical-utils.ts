@@ -1,10 +1,11 @@
 import toastr from 'toastr';
 import type { ICanonico } from '../interfaces/canonico';
+import type { ICanonicoItemList } from '../interfaces/canonico-list';
 
 export class CanonicalUtils {
 	private constructor() {}
 
-	public static prepareCanonicals(canonicals: ICanonico[]): Partial<ICanonico>[] {
+	public static prepareCanonicals(canonicals: ICanonico[]): ICanonicoItemList[] {
 		if (!canonicals || !canonicals.length) return [];
 
 		const translatedvalues: Record<string, string> = {
@@ -16,7 +17,7 @@ export class CanonicalUtils {
 			return {
 				nomeCanonico: canonical.nome,
 				descricaoCanonico: canonical.descricao,
-				statusCanonico: translatedvalues[canonical.statusCanonico],
+				statusCanonico: canonical.statusCanonico as 'A' | 'I',
 				versaoCanonico: canonical.versao,
 			};
 		});
