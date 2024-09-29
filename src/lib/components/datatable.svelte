@@ -63,7 +63,7 @@
 				{#each columns as column}
 					<DataTableSort handler={handler} orderBy={column.key} label={column.label} />
 				{/each}
-				<th>Ações</th>
+				<th class="text-white">Ações</th>
 			</tr>
 		</thead>
 		<tbody>
