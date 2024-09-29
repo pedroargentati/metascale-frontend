@@ -10,7 +10,7 @@
 			<h1 class="font-semibold text-lg">| Cicada</h1>
 		</div>
 		<ul class="flex gap-8 rounded-none">
-			<MenuItem icon="fluent:database-48-regular" label="Cadastros" link="canonical" />
+			<MenuItem icon="fluent:database-48-regular" label="Cadastros" link="/" />
 			<MenuItem icon="fluent:person-48-regular" label="Pessoas" link="people" />
 		</ul>
 	</header>
