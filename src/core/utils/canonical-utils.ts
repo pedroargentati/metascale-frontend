@@ -8,7 +8,7 @@ export class CanonicalUtils {
 	public static prepareCanonicals(canonicals: ICanonico[]): ICanonicoItemList[] {
 		if (!canonicals || !canonicals.length) return [];
 
-		const translatedvalues: Record<string, string> = {
+		const translatedValues: Record<string, string> = {
 			A: 'Ativo',
 			I: 'Inativo',
 		};
@@ -17,7 +17,7 @@ export class CanonicalUtils {
 			return {
 				nomeCanonico: canonical.nome,
 				descricaoCanonico: canonical.descricao,
-				statusCanonico: canonical.statusCanonico as 'A' | 'I',
+				statusCanonico: translatedValues[canonical.statusCanonico] as 'A' | 'I',
 				versaoCanonico: canonical.versao,
 			};
 		});

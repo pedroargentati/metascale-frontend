@@ -188,6 +188,19 @@
 					required
 				/>
 			</div>
+			<div class="form-control">
+				<label class="label" for="formatoChave">
+					<span class="label-text font-semibold text-black">Formato da Chave</span>
+				</label>
+				<input
+					type="text"
+					id="formatoChave"
+					class="input input-bordered w-full text-black"
+					bind:value={formData.formatoChave}
+					placeholder="Digite o formato da chave (ex: &#123;getCustomer:id&#125;)"
+					required
+				/>
+			</div>
 
 			<!-- Campo Tópicos -->
 			{#each formData.topicos as topico, topicoIndex}
