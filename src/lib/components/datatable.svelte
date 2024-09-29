@@ -21,13 +21,12 @@
 		console.log('e, row: ', e, row);
 	}
 
+	// Funções para ações de Editar e Excluir
 	function handleEdit(row: any) {
-		// Redireciona para a página de edição com o ID do item
 		goto(`/canonical/edit/${row.id}`);
 	}
 
 	function handleDelete(row: any) {
-		// Aqui deve ser implementada a lógica de exclusão
 		console.log('Excluir item:', row);
 		alert(`Excluir item: ${row.id}`);
 	}
@@ -62,12 +61,38 @@
 						</td>
 					{/each}
 					<td class="flex items-center gap-2">
-						<!-- Botão de editar -->
-						<button class="btn btn-xs btn-warning" on:click={() => handleEdit(row)}>
+						<!-- Renderização das ações do row -->
+						{#if row.actions}
+							{#each row.actions as action}
+								{#if action.button}
+									<button
+										{...action.button}
+										onclick={() => {
+											if (action.button.onclick) {
+												action.button.onclick(row);
+											}
+										}}
+									/>
+								{/if}
+							{/each}
+						{/if}
+						<!-- Adicionando ações de Editar e Excluir -->
+						<button
+							class="btn btn-xs btn-warning"
+							on:click={(e) => {
+								e.stopPropagation();
+								handleEdit(row);
+							}}
+						>
 							Editar
 						</button>
-						<!-- Botão de excluir -->
-						<button class="btn btn-xs btn-error" on:click={() => handleDelete(row)}>
+						<button
+							class="btn btn-xs btn-error"
+							on:click={(e) => {
+								e.stopPropagation();
+								handleDelete(row);
+							}}
+						>
 							Excluir
 						</button>
 					</td>
