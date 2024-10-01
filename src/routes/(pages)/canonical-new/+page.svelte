@@ -17,8 +17,24 @@
 		formatoChave: '',
 	};
 
+	// Campo Parâmetros {chamada:param}|{chamada:param2}|{chamada2:param1}
+
+	$: formatoChave = formData.chamadas.reduce((acc, chamada, currentIndex) => {
+		chamada.parametros?.forEach((parametro) => {
+			if (chamada.nome && parametro.nome) {
+				acc += `{${chamada.nome}:${parametro.nome}}`;
+			}
+			if (currentIndex < formData.chamadas.length - 1) {
+				acc += '/';
+			}
+		});
+		return acc;
+	}, '');
+
 	async function handleSubmit() {
 		try {
+			formData.formatoChave = formatoChave;
+
 			validateFormatoChave(formData.formatoChave);
 			console.log('Formulário de inclusão enviado:', formData);
 
@@ -185,19 +201,6 @@
 					class="input input-bordered w-full text-black"
 					bind:value={formData.versao}
 					placeholder="Digite a versão"
-					required
-				/>
-			</div>
-			<div class="form-control">
-				<label class="label" for="formatoChave">
-					<span class="label-text font-semibold text-black">Formato da Chave</span>
-				</label>
-				<input
-					type="text"
-					id="formatoChave"
-					class="input input-bordered w-full text-black"
-					bind:value={formData.formatoChave}
-					placeholder="Digite o formato da chave (ex: &#123;getCustomer:id&#125;)"
 					required
 				/>
 			</div>
@@ -403,6 +406,20 @@
 				<button type="button" class="btn btn-outline btn-info" on:click={generateJson}>
 					Gerar JSON do Formulário
 				</button>
+			</div>
+
+			<!-- DIV FIXA DO PARÂMETRO -->
+			<div class="fixed w-full top-12 right-0">
+				<div class="flex items-center w-full justify-center">
+					<input
+						type="text"
+						id="formatoChave"
+						class="input input-bordered max-sm:w-4/5 w-1/3 !bg-base-100 !text-primary placeholder:!text-primary"
+						bind:value={formatoChave}
+						placeholder="Conforme você digita, aparece o Formato da Chave"
+						disabled
+					/>
+				</div>
 			</div>
 		</form>
 	</div>

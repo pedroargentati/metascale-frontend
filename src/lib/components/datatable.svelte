@@ -1,8 +1,9 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
+	import { goto, invalidateAll } from '$app/navigation';
 	import {
 		DataTableCount,
 		DataTablePagination,
+		DataTableRefresh,
 		DataTableSearch,
 		DataTableSort,
 		DataTableView,
@@ -48,6 +49,7 @@
 				nome: selectedRow?.nomeCanonico,
 			} as ICanonico);
 
+			await invalidateAll();
 			toastr.success(`Canônico ${selectedRow?.nomeCanonico} inativado com sucesso !`);
 			showModal = false; // Fechar o modal
 		} catch (error) {
@@ -64,9 +66,10 @@
 
 <div class="z-0 w-full space-y-4 overflow-x-auto p-4">
 	<!-- Header -->
-	<header class="flex justify-between">
+	<header class="flex justify-between gap-2">
 		<DataTableSearch handler={handler} />
 		<DataTableView handler={handler} />
+		<DataTableRefresh />
 	</header>
 
 	<!-- Table -->
@@ -82,7 +85,7 @@
 		<tbody>
 			{#each $rows as row}
 				<tr
-					class="bg-base-200 even:bg-base-300 hover:text-primary transition-all hover:scale-[1.01] hover:cursor-pointer"
+					class="bg-base-200 even:bg-base-300 hover:scale-100 hover:cursor-pointer hover:outline-1 hover:outline hover:outline-primary"
 					on:click={(event) => handleSelect(event, row)}
 					tabindex={1}
 				>
@@ -134,7 +137,7 @@
 				pode afetar o comportamento do sistema.
 			</p>
 			<div class="flex justify-end gap-4">
-				<button class="btn btn-secondary" on:click={cancelDelete}>Cancelar</button>
+				<button class="btn" on:click={cancelDelete}>Cancelar</button>
 				<button class="btn btn-error" on:click={confirmDelete}>Inativar</button>
 			</div>
 		</div>

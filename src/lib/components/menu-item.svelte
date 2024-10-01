@@ -9,6 +9,6 @@
 <li>
 	<a class="flex gap-2 bg-transparent hover:scale-110 transition-all" href={link}>
 		<Icon icon={icon} class="size-6 text-primary" />
-		<span class="text-primary">{label}</span>
+		<span class="text-primary max-sm:hidden">{label}</span>
 	</a>
 </li>

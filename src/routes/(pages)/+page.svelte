@@ -6,7 +6,7 @@
 	export let data: PageData;
 </script>
 
-<div class="w-full p-4 bg-base-200 rounded-lg shadow-md">
+<div class="w-full p-4 bg-base-100 rounded-lg shadow-md">
 	<div class="flex justify-between items-center mb-4">
 		<h2 class="text-2xl font-semibold">Canônicos</h2>
 		<!-- Botão de Incluir -->
@@ -15,5 +15,7 @@
 		</button>
 	</div>
 	<!-- Tabela -->
-	<DataTable data={data.list} columns={data.columns} />
+	{#key data.list}
+		<DataTable data={data.list} columns={data.columns} />
+	{/key}
 </div>
