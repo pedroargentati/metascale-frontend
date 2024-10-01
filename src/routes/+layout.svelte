@@ -20,11 +20,6 @@
 		<ul class="flex gap-8 rounded-none">
 			<MenuItem icon="fluent:database-48-regular" label="Cadastros" link="/" />
 			<MenuItem icon="fluent:person-48-regular" label="Grupo" link="group" />
-			<MenuItem
-				icon="material-symbols-light:info-outline"
-				label="Saiba mais"
-				link="find-more-out"
-			/>
 		</ul>
 	</header>
 
